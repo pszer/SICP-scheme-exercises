@@ -1,0 +1,26 @@
+(define (sqrt x)
+	(define	(sqrt-iter guess lastguess)
+		(if (good-enough? guess lastguess)
+		guess
+		(sqrt-iter (improve guess) guess)))
+	(define (improve guess)
+		(average guess (/ x guess)))
+	(define (average x y)
+		(/ (+ x y) 2))
+	(define (good-enough? guess lastguess)
+		(< (/ (max guess lastguess) (min guess lastguess)) 1.00001))
+	(sqrt-iter 2.0 1.0))
+
+(define (cbrt x)
+	(define (cbrt-iter guess lastguess x)
+		(if (good-enough? guess lastguess)
+		guess
+		(cbrt-iter (improve-cube guess x) guess x)))
+	(define (improve-cube guess x)
+		(/ (+ (/ x (square guess)) guess guess) 3))
+	(define (good-enough? guess lastguess)
+		(< (/ (max guess lastguess) (min guess lastguess)) 1.00001))
+	(cbrt-iter 2.0 1.0 x))
+
+(define (square x)
+	(* x x))

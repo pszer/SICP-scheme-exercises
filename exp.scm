@@ -1,0 +1,20 @@
+;;; computes b^n where n is +integer exponent
+
+(define (expt b n)
+	(define (even? n) (= (remainder n 2) 0))
+	(define (square n) (* n n))
+	(define (expt-iter base residue exponent)
+		(cond ((= exponent 0) residue)
+		      ((even? exponent) (expt-iter (square base) residue (/ exponent 2)))
+		      (else             (expt-iter base (* base residue) (- exponent 1)))))
+	(expt-iter b 1 n))
+
+(define (mult b n)
+	(define (even? n) (= (remainder n 2) 0))
+	(define (double n) (+ n n))
+	(define (halve  n) (/ n 2))
+	(define (mult-iter base residue count)
+		(cond ((= count 0) residue)
+		      ((even? count) (mult-iter (double base) residue (halve count)))
+		      (else          (mult-iter base (+ base residue) (- count 1)))))
+	(mult-iter b 0 n))

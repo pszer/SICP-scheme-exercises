@@ -41,3 +41,27 @@
 		(begin
 			(proc (car l))
 			(For-each proc (cdr l)))))|#
+
+(define (count-leaves x)
+	(cond ((null? x) 0)
+	      ((not (pair? x)) 1)
+	      (else (+ (count-leaves (car x))
+	               (count-leaves (cdr x))))))
+
+; 2.25
+;(define l1 (list 1 3 (list 5 7) 9))
+;(define l2 (list (list 7)))
+;(define l3 '(1 (2 (3 (4 (5 (6 7)))))))
+
+(define (deep-reverse l)
+	(define (rev result left)
+		(cond ((null? left) result)
+		      ((not (pair? left)) left)
+		      (else (rev (cons (rev '() (car left)) result) (cdr left)))))
+	(rev '() l))
+
+(define (fringe x)
+	(cond ((null? x) '())
+	      ((not (pair? x)) (list x))
+	      (else (append (fringe (car x))
+	                    (fringe (cdr x))))))

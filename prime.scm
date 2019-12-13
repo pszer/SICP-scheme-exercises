@@ -22,6 +22,7 @@
 	(set! n (search-n (+ n 2))) (print n)
 	(set! n (search-n (+ n 2))) (print n))
 
+#|
 (define nontrivial-root #f)
 (define (square n) (* n n))
 (define (expmod base exp m)
@@ -51,3 +52,6 @@
 		      ((fermat-test k) (iter (- k 1)))
 		      (else #f)))
 	(iter (- n 1)))
+|#
+
+

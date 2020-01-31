@@ -35,7 +35,7 @@
 //   * All nodes are the same and a nodes update function is (with a 'which thing called
 //      me' parameter) :
 //     @ If a component called it, update the wire the node is connected to.
-//     @ If a wire called it, update the component the wire is connected to.
+//     @ If a wire called it, update the component the node is connected to.
 //   * All wires are the same and a wires update function
 //      is (with a 'which node called it' parameter):
 //     @ Update the value of the wire from the value of the node which called it.
@@ -58,7 +58,7 @@
 //    this could cause a stack overflow as each update call creates a stack frame which isn't
 //    deleted until the end of the propagation. This can be circumvented by implementing
 //    a self-made stack for update calls on the heap which would be huuuuge enough
-//    for any circuit, but this would only be needed for truely big circuits.
+//    for any circuit, but this would only be needed for truly massive circuits.
 //
 // This simulator will use the propagation model.
 
@@ -79,7 +79,7 @@ typedef struct wire wire;
 // Data structures.
 // - Node
 //   * Has an electricity value and pointers to which
-//      wires it's pointed to.
+//      wires it's connected to.
 //   * Max 8 wires connected to a node for simplicity.
 //   * Has a pointer to parent component.
 struct node {
@@ -114,12 +114,13 @@ void UpdateWire(wire * w, node * which_node_called_me);
 
 // - Component
 //   * Has a function that is called whenever one of it's nodes is updated.
-//   * A fixed number of nodes.
+//   * Has some nodes.
 // - In this simulator, the function is a void function pointer, and
 //    each component will have 8 nodes, but it will specify how many it actually uses
-//    as a number.
+//    as a number 'node_count'.
 struct component {
-	void (*function)(component *, node *); // a void function that takes in as parameter which node called it
+	void (*function)(component *, node *); // a void function that takes in as a parameter
+	                                       // itself and which node called it
 	node nodes[MAX_COMP_NODES]; // the components nodes
 	int node_count; // how many nodes the component actually uses
 

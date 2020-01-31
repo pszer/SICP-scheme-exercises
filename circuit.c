@@ -60,6 +60,33 @@
 //    for any circuit, but this would only be needed for truly massive circuits.
 //
 // This simulator will use the propagation model.
+//
+// <node> <comp> <wire> are all mutable
+// <marked> ⊆ <wires>
+// <node> is pair (voltage,current) voltage,current ∈ real
+// <comp> is 2-tuple (N,δ) N = set of nodes ; λδ.<node>(...)
+// <wire> is 4-tuple (voltage,current,n1,n2) n1,n2 ∈ <nodes> voltage,current ∈ real
+// (λUN.<node>)(λx.(if (x∈<wires>)
+//                     (<parent-node>δ(<node>))
+//                     ({w|<node>∈w}(UW(w,<node>)))))
+// (λUW.<wire>)(¬∃w[w∈<marked>] (
+//                λ<node> (set! voltage,current (voltage <node>)
+//                                              (/ (current <node>) |{w|<node>∈w}|))
+//                        (+=set! (voltage,current <other-node>) voltage,current)
+//                        (insert! <marked> <wire>)
+//                        (U(<other-node>))))
+//
+// definition of propagate.
+// @ time=0
+// <marked>=0, ∀n[n∈<nodes> & n=(0,0)]
+// λpropogate = δ(source)
+//
+// assume ∀δ[δ∈TIME(O(n))]
+// evaluating all calls of ¬∃w[w∈<marked>] ∈ TIME(O(n)) if constant lookup O(1)
+//                         ¬∃w[w∈<marked>] ∈ TIME(O(n^2)) if constant lookup O(n)
+// worst-case evaluating λ<node> is t(λ<node>)*(|<nodes>+<wires>|) ∈ O(n)*O(1) = TIME(O(n))
+// -> propogate ∈ O(n) if constant <marked> lookup
+//    propogate ∈ O(n^2) if linear <marked> lookup
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -205,6 +205,7 @@ int main(int argc, char ** argv) {
 		UpdateCircuit(&source);
 	}
 
+	// this prints out 2.5V
 	printf("voltmeter reading : %f\n", volt_m.data1);
 
 	return 0;
@@ -303,8 +304,9 @@ void UpdateWire(wire * w, node * which_node_called_me) {
 		return;
 	PushVisitedWire(w);
 
-	w->voltage = which_node_called_me->voltage;
+	// divide current by how many connections the node has
 	w->current = which_node_called_me->current / which_node_called_me->connections;
+	w->voltage = which_node_called_me->voltage;
 
 	if (which_node_called_me == w->connect_a) {
 		w->connect_b->voltage += w->voltage;
@@ -337,9 +339,8 @@ component CreateComponent(void (*function)(component *, node *), int node_count)
 
 void ComponentUpdateNodeParent(component * comp) {
 	size_t i;
-	for (i = 0; i < comp->node_count; ++i) {
+	for (i = 0; i < comp->node_count; ++i)
 		comp->nodes[i] = CreateNode(comp);
-	}
 }
 
 void ResetVisitedWires() {

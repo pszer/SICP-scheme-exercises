@@ -69,7 +69,7 @@
 // (λUN.<node>)(λx.(if (x∈<wires>)
 //                     (<parent-node>δ(<node>))
 //                     ({w|<node>∈w}(UW(w,<node>)))))
-// (λUW.<wire>)(¬∃w[w∈<marked>] (
+// (λUW.<wire>)(when ¬(w∈<marked>) (
 //                λ<node> (set! voltage,current (voltage <node>)
 //                                              (/ (current <node>) |{w|<node>∈w}|))
 //                        (+=set! (voltage,current <other-node>) voltage,current)
@@ -79,7 +79,7 @@
 // definition of propagate.
 // @ time=0
 // <marked>=0, ∀n[n∈<nodes> & n=(0,0)]
-// λpropogate = δ(source)
+// λpropogate = δ(source,0)
 //
 // assume ∀δ[δ∈TIME(O(n))]
 // evaluating all calls of ¬∃w[w∈<marked>] ∈ TIME(O(n)) if constant lookup O(1)

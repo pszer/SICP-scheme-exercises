@@ -78,8 +78,8 @@
 //
 // definition of propagate.
 // @ time=0
-// <marked>=0, ∀n[n∈<nodes> & n=(0,0)]
-// λpropogate = δ(source,0)
+// <marked>=0, ∀n∈<nodes>[n=(0,0)]
+// λpropogate = sourceδ(NULL)
 //
 // assume ∀δ[δ∈TIME(O(n))]
 // evaluating all calls of ¬∃w[w∈<marked>] ∈ TIME(O(n)) if constant lookup O(1)
